@@ -1,0 +1,24 @@
+services:
+
+  sqlpage:
+    image: lovasoa/sqlpage
+    volumes:
+      - ./app:/var/www
+    environment:
+      - DATABASE_URL=postgres://pguser:changeit123@db/pguser
+    depends_on:
+      - db
+
+    ports:
+      - "8087:8080"
+
+  db:
+    build:
+      context: .
+    environment:
+      POSTGRES_PASSWORD: changeit123
+      POSTGRES_USER: pguser
+      POSTGRES_DB: pguser
+    volumes:
+      - ./db_init:/docker-entrypoint-initdb.d
+
